@@ -34,7 +34,7 @@ export default {
         let hasScrolledToBottom = ref('')
 
         onMounted(() => {
-            fetchMessages()
+            fetchMessages();
         })
 
         onUpdated(() => {
@@ -43,9 +43,7 @@ export default {
 
         Echo.channel('chat-channel')
             .listen('SendMessage', (e) => {
-                console.log('message');
-                console.log(e);
-                messages.value.push(e);
+                messages.value.push(e.message);
             })
         const fetchMessages = async () => {
             axios.get('/get-messages').then(response => {
