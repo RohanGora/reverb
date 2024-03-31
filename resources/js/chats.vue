@@ -41,7 +41,7 @@ export default {
             scrollBottom()
         })
 
-        Echo.private('chat-channel')
+        Echo.channel('chat-channel')
             .listen('SendMessage', (e) => {
                 messages.value.push(e);
             })
@@ -52,14 +52,10 @@ export default {
         }
 
         const addMessage = async () => {
-            let user_message = {
-                message: newMessage.value
-            };
-            messages.value.push(user_message);
-            axios.post('/store-messages', user_message).then(response => {
-                console.log(response.data);
+            axios.post('/store-messages', { message: newMessage.value }).then(response => {
+                fetchMessages();
+                newMessage.value = ''
             });
-            newMessage.value = ''
         }
 
         const scrollBottom = () => {

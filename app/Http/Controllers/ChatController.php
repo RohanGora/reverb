@@ -16,7 +16,7 @@ class ChatController extends Controller
     public function storeMessages(Request $request)
     {
         $message = Chat::create(['message' => $request->message]);
-        SendMessage::dispatch($message);
+        broadcast(new SendMessage($message))->toOthers();
         return 'message sent';
     }
 }
