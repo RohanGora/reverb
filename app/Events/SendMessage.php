@@ -20,6 +20,7 @@ class SendMessage implements ShouldBroadcast
     public function __construct(Chat $message)
     {
         $this->message = $message;
+        \Log::info($message);
     }
 
     /**
@@ -29,7 +30,9 @@ class SendMessage implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        return new Channel('chat-channel');
+        return [
+            new Channel('chat-channel'),
+        ];
     }
 
     public function broadcastWith()
