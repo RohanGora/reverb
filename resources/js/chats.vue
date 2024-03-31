@@ -43,6 +43,8 @@ export default {
 
         Echo.channel('chat-channel')
             .listen('SendMessage', (e) => {
+                console.log('message');
+                console.log(e);
                 messages.value.push(e);
             })
         const fetchMessages = async () => {
