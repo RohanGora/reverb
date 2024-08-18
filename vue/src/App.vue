@@ -16,11 +16,15 @@
 export default {
   data() {
     return {
+      userId: 2,
       ids: [],
     };
   },
   mounted() {
-    this.$echo.channel('new-lead-generated').listen('NewLeadGenerated', (e) => {
+    this.$echo.private('new-lead-generated').listen('NewLeadGenerated', (e) => {
+      this.ids.push(e.leadId);
+    });
+    this.$echo.private('new-lead-assigned-' + this.userId).listen('NewLeadGenerated', (e) => {
       this.ids.push(e.leadId);
     });
   }

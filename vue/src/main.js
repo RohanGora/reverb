@@ -20,6 +20,12 @@ const echo = new Echo({
     wssPort: 443,
     forceTLS: false,
     enabledTransports: ['ws', 'wss'],
+    authEndpoint: 'http://localhost:8000/api/broadcasting/auth',
+    auth: {
+        headers: {
+            Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzIzOTc0MzA3LCJleHAiOjE3MjQwMDY3MDcsIm5iZiI6MTcyMzk3NDMwNywianRpIjoiN3N3MFpSRWNWQlpQbTVwMiIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.kuTJeXeGXWyV_sujU7rgUlIvIf6QRu8taoAgBFPrnGs'
+        }
+    }
 });
 
 const app = createApp(App);
