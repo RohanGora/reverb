@@ -5,7 +5,7 @@
 
         <div class="message message-receive">
           <p>
-            {{ message.message }}
+            {{ message.msg }}
           </p>
         </div>
       </div>
@@ -28,7 +28,7 @@
 import axios from 'axios';
 
 // Set the base URL for Axios to point to your API
-axios.defaults.baseURL = "http://localhost:8020"; // Assuming your API is hosted locally on port 8020
+axios.defaults.baseURL = "http://localhost:8000"; // Assuming your API is hosted locally on port 8020
 
 // Optionally, you can set common headers
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -41,9 +41,8 @@ export default {
     };
   },
   mounted() {
-    this.fetchMessages();
-    this.$echo.channel('chat-channel').listen('SendMessage', (e) => {
-      this.messages.push(e.message);
+    this.$echo.channel('pq-chat-1').listen('PqChatMsg', (e) => {
+      this.messages.push(e);
       this.$nextTick(this.scrollBottom);
     });
   },
@@ -51,15 +50,11 @@ export default {
     this.scrollBottom();
   },
   methods: {
-    fetchMessages() {
-      axios.get('/api/get-messages').then(response => {
-        this.messages = response.data;
-      });
-    },
     addMessage() {
-      axios.post('/api/store-messages', { message: this.newMessage }).then(() => {
-        this.fetchMessages();
-        this.newMessage = '';
+      let that = this;
+      axios.post('/api/pq-chat-msg-send', { msg: that.newMessage, leadId: 1 }).then(() => {
+        that.messages.push({ msg: that.newMessage });
+        that.newMessage = '';
       });
     },
     scrollBottom() {
